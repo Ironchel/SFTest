@@ -2,6 +2,7 @@ pobeditel = 0 # Это переменная для уточнения какой
 varianti = ['1', '2', '3', '4', '5', '6', '7', '8', '9'] # это список цифр из которого формируеться карта
 igrok_1 = [] # список ходов игрока 1
 igrok_2 = [] # список ходов игрока 2
+summa_push = 0 # количество ходов
 win_nummbers = [['1', '2', '3'], # выигрышные комбинации, программа постоянно проверет, есть ли комбинация в списке игрока
                 ['4', '5', '6'],
                 ['7', '8', '9'],
@@ -66,7 +67,7 @@ while True:
         tabliza(varianti)
         break
 
-while not pobeditel and start == 'ДА':
+while not pobeditel and start == 'ДА' and summa_push != 9:
     """Это цикл хода первого игрока"""
     print()
     choice_1 = fahler('Первый')
@@ -74,13 +75,14 @@ while not pobeditel and start == 'ДА':
     varianti.insert(choice_1, 'o')
     tabliza(varianti)
     igrok_1.append(str(choice_1 + 1))
+    summa_push += 1
     if summa(win_nummbers, igrok_1):
         pobeditel = "Первый игрок выиграл!!!"
         print()
         print()
         print(f"Итог такой - {pobeditel} Поздравляем")
         break
-    while True:
+    while summa_push != 9:
         """Это цикл хода второго игрока"""
         print()
         choice_2 = fahler("Второй")
@@ -88,6 +90,7 @@ while not pobeditel and start == 'ДА':
         varianti.insert(choice_2, 'x')
         tabliza(varianti)
         igrok_2.append(str(choice_2 + 1))
+        summa_push += 1
         if summa(win_nummbers, igrok_2):
             pobeditel = "Второй игрок выиграл!!!"
             print()
@@ -95,3 +98,6 @@ while not pobeditel and start == 'ДА':
             print(f"Итог такой - {pobeditel} Поздравляем")
             break
         break
+print()
+if summa_push == 9:
+    print("Победителя нет. Ничья")
